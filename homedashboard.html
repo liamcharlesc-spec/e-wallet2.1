@@ -32,7 +32,7 @@ body{
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  min-height:780px;
+  min-height:720px;
   box-shadow:0 8px 30px rgba(0,0,0,0.3);
   position:relative;
 }
@@ -317,7 +317,7 @@ body{
 
 <script>
 /* Wallet balance */
-let walletBalance = parseFloat(localStorage.getItem('walletBalance')) || 0;
+let walletBalance = parseFloat(localStorage.getItem('walletBalance')) || 5000;
 document.getElementById('walletBalance').textContent = `PHP ${walletBalance.toFixed(2)}`;
 
 /* Tabs */
@@ -411,3 +411,4 @@ function goProfile(el){
 </script>
 </body>
 </html>
+
