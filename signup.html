@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ePay Sign Up</title>
+
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* BODY + WAVES */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #050b14;
+    overflow: hidden;
+    color: #fff;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(0, 255, 200, 0.18),
+        rgba(0, 120, 255, 0.1),
+        transparent 60%);
+    animation: wave 14s linear infinite;
+}
+
+body::after {
+    animation-duration: 22s;
+    opacity: 0.6;
+}
+
+@keyframes wave {
+    0% { transform: translate(-20%, -20%) rotate(0deg); }
+    100% { transform: translate(-20%, -20%) rotate(360deg); }
+}
+
+/* CONTAINER */
+.container {
+    width: 360px;
+    min-height: 760px;
+    background: rgba(8, 16, 30, 0.95);
+    border-radius: 30px;
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 0 25px rgba(0, 255, 200, 0.35),
+        0 0 60px rgba(0, 120, 255, 0.25);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 40px 20px 25px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ffd5, #007bff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #001018;
+    margin: auto;
+    box-shadow:
+        0 0 20px #00ffd5,
+        0 0 40px #007bff;
+}
+
+/* SIGNUP BOX */
+.signup-box {
+    background: rgba(5, 10, 20, 0.95);
+    padding: 30px 25px 35px;
+    border-radius: 35px 35px 0 0;
+    color: white;
+}
+
+.signup-box h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(0, 255, 200, 0.6);
+}
+
+/* ✅ FIXED ROW INPUTS */
+.row {
+    display: flex;
+    gap: 10px;              /* smaller gap */
+    margin-bottom: 22px;
+}
+
+.row input {
+    flex: 1 1 0;            /* force equal width */
+    min-width: 0;           /* prevents overflow */
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.08);
+    color: #eaffff;
+    font-size: 14px;
+}
+
+.row input::placeholder {
+    color: #7fbfc2;
+}
+
+/* Prevent number/date overflow */
+.row input[type="number"] {
+    appearance: textfield;
+}
+
+.row input[type="date"] {
+    color-scheme: dark;
+}
+
+/* INPUT GROUP */
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 10px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(0, 255, 200, 0.3);
+    outline: none;
+    color: #eaffff;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.input-group input::placeholder {
+    color: #7fbfc2;
+}
+
+.input-group input:focus {
+    border-bottom: 2px solid #00ffd5;
+    box-shadow: 0 6px 12px rgba(0, 255, 200, 0.45);
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #00ffd5, #007bff);
+    color: #001018;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow:
+        0 0 25px rgba(0, 255, 200, 0.7),
+        0 0 50px rgba(0, 120, 255, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.04);
+    box-shadow:
+        0 0 35px rgba(0, 255, 200, 1),
+        0 0 70px rgba(0, 120, 255, 0.8);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">ePay</div>
+    </div>
+
+    <div class="signup-box">
+        <h2>Create Account</h2>
+
+        <div class="row">
+            <input type="text" id="fname" placeholder="First Name">
+            <input type="text" id="lname" placeholder="Last Name">
+        </div>
+
+        <div class="row">
+            <input type="date" id="bday">
+            <input type="number" id="age" placeholder="Age">
+        </div>
+
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Email">
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="phone" placeholder="Phone Number">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="confirm" placeholder="Confirm Password">
+        </div>
+
+        <button class="btn" onclick="signup()">Sign Up</button>
+    </div>
+
+</div>
+
+<script>
+function signup() {
+    let fname = document.getElementById("fname").value.trim();
+    let lname = document.getElementById("lname").value.trim();
+    let bday = document.getElementById("bday").value;
+    let age = document.getElementById("age").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let password = document.getElementById("password").value;
+    let confirm = document.getElementById("confirm").value;
+
+    localStorage.setItem("accountName", fname + " " + lname);
+    localStorage.setItem("accountNumber", phone);
+    localStorage.setItem("accountPassword", password);
+
+
+    if (!fname || !lname || !bday || !age || !email || !phone || !password || !confirm) {
+        alert("Please fill out all fields.");
+        return;
+    }
+
+    if (password !== confirm) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    alert("Sign Up Successful!");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

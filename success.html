@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Success</title>
+
+<style>
+    body {
+        font-family: Inter, Arial;
+        background: linear-gradient(180deg,#0b0f1a,#1a2030);
+        color:white;
+        display:flex;
+        justify-content:center;
+        padding:20px;
+        text-align:center;
+    }
+    .box{
+        width:360px;
+        padding:30px;
+        border-radius:16px;
+        background:rgba(255,255,255,0.08);
+    }
+    h2{
+        color:#00ffcc;
+        margin-bottom:15px;
+    }
+    .btn{
+        margin-top:20px;
+        padding:12px;
+        width:100%;
+        border:none;
+        border-radius:10px;
+        background:#00ffcc;
+        font-weight:700;
+        cursor:pointer;
+    }
+</style>
+</head>
+
+<body>
+<div class="box">
+    <h2>Transaction Successful!</h2>
+    <div id="details"></div>
+
+    <button class="btn" onclick="goHome()">Return to Dashboard</button>
+</div>
+
+<script>
+const url = new URLSearchParams(window.location.search);
+let type = url.get("type");
+let amount = url.get("amount");
+let extra = url.get("extra");
+
+document.getElementById("details").innerHTML = `
+    <p><strong>Type:</strong> ${type}</p>
+    <p><strong>Amount:</strong> PHP ${amount}</p>
+    <p><strong>Details:</strong> ${extra}</p>
+`;
+
+// Save Transaction to History
+let history = JSON.parse(localStorage.getItem("history") || "[]");
+history.push({
+    type, amount, extra, date: new Date().toLocaleString()
+});
+localStorage.setItem("history", JSON.stringify(history));
+
+function goHome(){
+    window.location.href = "homedashboard.html";
+}
+</script>
+</body>
+</html>

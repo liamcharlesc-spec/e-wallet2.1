@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ePay — Profile</title>
+<style>
+:root{
+  --bg-gradient: linear-gradient(180deg,#0b0f1a 0%, #1a2030 100%);
+  --accent-neon:#00ffcc;
+  --text-light:#f0f0f0;
+  --icon-bg:rgba(255,255,255,0.05);
+  --divider:rgba(255,255,255,0.1);
+}
+
+/* phone frame */
+*{box-sizing:border-box;}
+body{
+  background:var(--bg-gradient);
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  min-height:85vh;
+  color:var(--text-light);
+}
+.phone{
+  width:360px;
+  border-radius:28px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:780px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  position:relative;
+}
+
+/* Top header */
+.top{
+  padding:36px 20px 10px;
+  font-size:20px;
+  font-weight:700;
+  text-align:center;
+}
+
+/* Profile tabs */
+.profile-tabs{
+  display:flex;
+  flex-direction:column;
+  margin:20px;
+  gap:12px;
+}
+.tab{
+  padding:14px 16px;
+  border-radius:12px;
+  background:var(--icon-bg);
+  text-align:left;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.tab:hover{
+  text-shadow:0 0 6px var(--accent-neon);
+  background:rgba(0,255,204,0.1);
+}
+
+/* FAQ & Help combined card */
+.faq-help-card{
+  background:var(--icon-bg);
+  border-radius:12px;
+  overflow:hidden;
+}
+.faq-help-card .tab{
+  margin:0;
+  border-radius:0;
+  padding:12px 16px;
+}
+.faq-help-card .divider{
+  height:1px;
+  background:var(--divider);
+  margin:0;
+}
+
+/* Bottom nav */
+.bottom-nav{
+  margin:12px 20px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:rgba(0,0,0,0.4);
+  border-radius:16px;
+  padding:6px 0;
+  box-shadow:0 6px 18px rgba(0,0,0,0.3);
+  position:absolute;
+  bottom:12px;
+  width:calc(100% - 40px);
+}
+.nav-item{
+  flex:1;
+  text-align:center;
+  cursor:pointer;
+  padding:6px 0;
+  border-radius:12px;
+  transition:0.3s;
+}
+.nav-item.active{
+  box-shadow:0 0 10px var(--accent-neon),0 0 20px var(--accent-neon);
+}
+.nav-item svg{ width:22px; height:22px; stroke:white; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="top">Profile</div>
+
+  <div class="profile-tabs">
+    <div class="tab" onclick="window.location.href='accountmanagement.html'">Account Management</div>
+
+    <div class="faq-help-card">
+      <div class="tab" onclick="window.location.href='faqs.html'">FAQs</div>
+      <div class="divider"></div>
+      <div class="tab" onclick="window.location.href='help.html'">Help</div>
+    </div>
+
+    <div class="tab" onclick="window.location.href='login.html'">Logout</div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="goHome(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>
+    </div>
+    <div class="nav-item" onclick="goNotifications(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 10-12 0v5l-2 2h16l-2-2V8z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    </div>
+    <div class="nav-item" onclick="goQR(this)">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/></svg>
+    </div>
+    <div class="nav-item active" onclick="goProfile(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Bottom nav functions */
+function resetNav() {
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+}
+
+function goHome(el){
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "homedashboard.html";
+}
+
+function goNotifications(el){
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "notifications.html";
+}
+
+function goQR(el){
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "qr.html";
+}
+
+function goProfile(el){
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "profile.html";
+}
+</script>
+</body>
+</html>

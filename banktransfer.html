@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ePay — Bank Transfer</title>
+<style>
+:root{
+  --bg-gradient: linear-gradient(180deg,#0b0f1a 0%, #1a2030 100%);
+  --accent-neon:#00ffcc;
+  --accent-blue:#2a6f97;
+  --cta-green:#4bb06d;
+  --text-light:#f0f0f0;
+  --icon-bg:rgba(255,255,255,0.05);
+}
+
+/* phone frame */
+*{box-sizing:border-box;}
+body{
+  background:var(--bg-gradient);
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  min-height:85vh;
+  color:var(--text-light);
+}
+.phone{
+  width:360px;
+  border-radius:28px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:780px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  position:relative;
+  padding-bottom: 80px; /* for bottom nav */
+}
+
+/* Wallet card */
+.wallet-card{
+  margin:12px 20px;
+  padding:16px;
+  border-radius:12px;
+  color:white;
+  box-shadow:0 6px 18px rgba(0,255,204,0.3);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  background: linear-gradient(270deg, #00ffcc, var(--accent-blue), #00ffcc, var(--accent-blue));
+  background-size: 600% 600%;
+  animation: neonWave 10s ease infinite;
+}
+@keyframes neonWave{
+  0%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+  100%{ background-position:0% 50%; }
+}
+.wallet-header{
+  text-align:right;
+  font-size:13px;
+  font-weight:600;
+}
+.wallet-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-top:10px;
+}
+.balance-left{
+  font-size:28px;
+  font-weight:700;
+}
+.balance-sub{
+  font-size:13px;
+  opacity:0.9;
+  margin-top:4px;
+}
+
+/* Transfer form */
+.transfer-form{
+  margin:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.transfer-form input, .transfer-form select{
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  background:rgba(0,0,0,0.2);
+  color:white;
+}
+.transfer-form select{
+  background:black;
+}
+.transfer-form select option{
+  background:black;
+  color:white;
+}
+.transfer-summary{
+  background:rgba(0,0,0,0.2);
+  padding:12px;
+  border-radius:12px;
+  color:white;
+  margin-top:10px;
+}
+.transfer-summary div{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:4px;
+  font-size:14px;
+}
+.transfer-button{
+  margin-top:12px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:var(--cta-green);
+  color:black;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* Bottom nav */
+.bottom-nav{
+  position:absolute;
+  bottom:12px;
+  width:calc(100% - 40px);
+  margin:0 20px;
+  display:flex;
+  justify-content:space-around;
+  background:rgba(0,0,0,0.4);
+  border-radius:16px;
+  padding:6px 0;
+  box-shadow:0 6px 18px rgba(0,0,0,0.3);
+}
+.nav-item{
+  flex:1;
+  text-align:center;
+  cursor:pointer;
+  padding:6px 0;
+  border-radius:12px;
+  transition:0.3s;
+}
+.nav-item.active{
+  box-shadow:0 0 10px var(--accent-neon),0 0 20px var(--accent-neon);
+}
+.nav-item svg{ width:22px; height:22px; stroke:white; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Wallet card -->
+  <div class="wallet-card">
+    <div class="wallet-header">QuickPay</div>
+    <div class="wallet-footer">
+      <div>
+        <div class="balance-left" id="walletBalance">PHP 0.00</div>
+        <div class="balance-sub">Wallet Balance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transfer Form -->
+  <div class="transfer-form">
+    <label>Amount</label>
+    <input type="number" id="transferAmount" placeholder="PHP 0.00" min="1" />
+
+    <label>Select Bank</label>
+    <select id="bankSelect">
+      <option value="">-- Choose Bank --</option>
+      <option value="BDO">BDO</option>
+      <option value="BPI">BPI</option>
+      <option value="Metrobank">Metrobank</option>
+      <option value="PNB">PNB</option>
+      <option value="GCash Bank">GCash Bank</option>
+    </select>
+
+    <!-- Transaction Summary -->
+    <div class="transfer-summary" id="summary">
+      <div><span>Amount:</span><span>PHP 0.00</span></div>
+      <div><span>Bank:</span><span>---</span></div>
+      <div><span>Fee:</span><span>PHP 10</span></div>
+      <div><strong>Total:</strong><span>PHP 10</span></div>
+    </div>
+
+    <button class="transfer-button" onclick="performTransfer()">Transfer</button>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="goHome(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>
+    </div>
+    <div class="nav-item" onclick="goNotifications(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 10-12 0v5l-2 2h16l-2-2V8z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    </div>
+    <div class="nav-item" onclick="goQR(this)">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/></svg>
+    </div>
+    <div class="nav-item" onclick="goProfile(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Wallet balance */
+let walletBalance = parseFloat(localStorage.getItem('walletBalance')) || 0;
+document.getElementById('walletBalance').textContent = `PHP ${walletBalance.toFixed(2)}`;
+
+/* Transaction Summary Update */
+const amountInput = document.getElementById('transferAmount');
+const bankSelect = document.getElementById('bankSelect');
+const summary = document.getElementById('summary');
+
+function updateSummary(){
+  const amount = parseFloat(amountInput.value) || 0;
+  const bank = bankSelect.value || '---';
+  const fee = amount > 0 ? 10 : 0;
+  const total = amount + fee;
+  summary.innerHTML = `
+    <div><span>Amount:</span><span>PHP ${amount.toFixed(2)}</span></div>
+    <div><span>Bank:</span><span>${bank}</span></div>
+    <div><span>Fee:</span><span>PHP ${fee}</span></div>
+    <div><strong>Total:</strong><span>PHP ${total.toFixed(2)}</span></div>
+  `;
+}
+
+amountInput.addEventListener('input', updateSummary);
+bankSelect.addEventListener('change', updateSummary);
+
+/* Perform Transfer */
+function performTransfer(){
+  const amount = parseFloat(amountInput.value);
+  const bank = bankSelect.value;
+
+  if(!amount || amount <= 0){
+    alert('Please enter a valid amount.');
+    return;
+  }
+  if(!bank){
+    alert('Please select a bank.');
+    return;
+  }
+  if(amount + 10 > walletBalance){
+    alert('Insufficient wallet balance.');
+    return;
+  }
+
+  // Deduct from wallet
+  walletBalance -= (amount + 10); // fee
+  localStorage.setItem('walletBalance', walletBalance.toFixed(2));
+  document.getElementById('walletBalance').textContent = `PHP ${walletBalance.toFixed(2)}`;
+
+  // Store transaction in notifications
+  let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+  transactions.push({
+    type: 'Sent Money',
+    amount: amount,
+    account: bank,
+    date: new Date().toLocaleString()
+  });
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+
+  alert(`PHP ${amount.toFixed(2)} successfully transferred to ${bank}!`);
+  amountInput.value = '';
+  bankSelect.value = '';
+  updateSummary();
+}
+
+/* Bottom nav functions */
+function resetNav() {
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+}
+function goHome(el){ event.stopPropagation(); resetNav(); el.classList.add('active'); window.location.href="homedashboard.html";}
+function goNotifications(el){ event.stopPropagation(); resetNav(); el.classList.add('active'); window.location.href="notifications.html";}
+function goQR(el){ event.stopPropagation(); resetNav(); el.classList.add('active'); window.location.href="qr.html";}
+function goProfile(el){ event.stopPropagation(); resetNav(); el.classList.add('active'); window.location.href="profile.html";}
+
+</script>
+
+</body>
+</html>

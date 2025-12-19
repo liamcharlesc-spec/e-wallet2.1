@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ePay — Logout</title>
+<style>
+:root{
+  --bg-gradient: linear-gradient(180deg,#0b0f1a 0%, #1a2030 100%);
+  --accent-neon:#00ffcc;
+  --text-light:#f0f0f0;
+}
+
+/* phone frame */
+*{box-sizing:border-box;}
+body{
+  background:var(--bg-gradient);
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:var(--text-light);
+  margin:0;
+}
+.phone{
+  width:360px;
+  border-radius:28px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:200px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+.logout-btn{
+  margin-top:20px;
+  padding:12px 20px;
+  font-size:16px;
+  font-weight:600;
+  color:white;
+  background:var(--accent-neon);
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.logout-btn:hover{
+  box-shadow:0 0 10px var(--accent-neon);
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <h2>Are you sure you want to logout?</h2>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<script>
+function logout(){
+  // Clear all stored user data
+  localStorage.clear();
+
+  // Redirect to login page
+  window.location.href = "signinup.html"; // Replace with your actual login page
+}
+</script>
+
+</body>
+</html>

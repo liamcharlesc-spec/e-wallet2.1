@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ePay Login</title>
+
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* BODY + ANIMATED WAVES */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #050b14;
+    overflow: hidden;
+    color: white;
+}
+
+/* NEON WAVES */
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center,
+        rgba(0, 255, 200, 0.18),
+        rgba(0, 140, 255, 0.12),
+        transparent 60%);
+    animation: waveMove 14s linear infinite;
+}
+
+body::after {
+    animation-duration: 22s;
+    opacity: 0.5;
+}
+
+@keyframes waveMove {
+    from { transform: translate(-20%, -20%) rotate(0deg); }
+    to   { transform: translate(-20%, -20%) rotate(360deg); }
+}
+
+/* MAIN CONTAINER */
+.container {
+    width: 340px;
+    height: 700px;
+    background: rgba(10, 20, 35, 0.92);
+    border-radius: 28px;
+    padding-bottom: 30px;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 0 30px rgba(0, 255, 200, 0.4),
+        0 0 60px rgba(0, 120, 255, 0.25);
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 40px 20px 20px;
+}
+
+/* LOGO */
+.logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ffd5, #007bff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: bold;
+    color: #001018;
+    margin: 0 auto 20px;
+    box-shadow:
+        0 0 15px #00ffd5,
+        0 0 35px #007bff;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #eaffff;
+    text-shadow: 0 0 10px rgba(0, 255, 200, 0.6);
+}
+
+/* SUBTEXT */
+.subtext {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #9fdfff;
+}
+
+.subtext a {
+    color: #00ffd5;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.subtext a:hover {
+    text-shadow: 0 0 8px #00ffd5;
+}
+
+/* FORM BOX */
+.form-box {
+    background: rgba(5, 10, 20, 0.85);
+    margin: 25px;
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: inset 0 0 18px rgba(0, 255, 200, 0.18);
+}
+
+/* INPUTS */
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(0, 255, 200, 0.35);
+    outline: none;
+    color: #eaffff;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.input-group input::placeholder {
+    color: #7fbfc2;
+}
+
+.input-group input:focus {
+    border-bottom-color: #00ffd5;
+    box-shadow: 0 6px 12px rgba(0, 255, 200, 0.45);
+}
+
+/* FORGOT PASSWORD */
+.forgot {
+    text-align: center;
+    font-size: 12px;
+    color: #7fdcff;
+    cursor: pointer;
+}
+
+.forgot:hover {
+    text-shadow: 0 0 6px #00ffd5;
+}
+
+/* LOGIN BUTTON */
+.btn {
+    width: 80%;
+    margin: 25px auto 0;
+    display: block;
+    padding: 14px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #00ffd5, #007bff);
+    color: #001018;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow:
+        0 0 22px rgba(0, 255, 200, 0.7),
+        0 0 45px rgba(0, 120, 255, 0.5);
+    transition: 0.25s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 35px rgba(0, 255, 200, 1),
+        0 0 70px rgba(0, 120, 255, 0.7);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">ePay</div>
+        <h2>Sign in to your<br>Account</h2>
+        <p class="subtext">
+            Don't have an Account?
+            <a href="signup.html">Sign Up</a>
+        </p>
+    </div>
+
+    <div class="form-box">
+        <div class="input-group">
+            <input id="phone" type="text" placeholder="Enter Phone Number">
+        </div>
+
+        <div class="input-group">
+            <input id="password" type="password" placeholder="Enter Password">
+        </div>
+
+        <p class="forgot" onclick="forgotPassword()">Forgot Password?</p>
+    </div>
+
+    <button class="btn" onclick="login()">Log In</button>
+</div>
+
+<script>
+function login() {
+    let phone = document.getElementById("phone").value;
+    let pass = document.getElementById("password").value;
+
+    if (phone === "" || pass === "") {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    alert("Login successful!");
+    window.location.href = "homedashboard.html";
+}
+
+function forgotPassword() {
+    alert("Password recovery is not yet available.");
+}
+</script>
+
+</body>
+</html>

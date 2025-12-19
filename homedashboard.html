@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ePay — Home Dashboard</title>
+<style>
+:root{
+  --bg-gradient: linear-gradient(180deg,#0b0f1a 0%, #1a2030 100%);
+  --accent-neon:#00ffcc;
+  --accent-blue:#2a6f97;
+  --cta-green:#4bb06d;
+  --cta-secondary:rgba(255,255,255,0.2);
+  --icon-bg:rgba(255,255,255,0.05);
+  --text-light:#f0f0f0;
+}
+
+/* phone frame */
+*{box-sizing:border-box;}
+body{
+  background:var(--bg-gradient);
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  min-height:85vh;
+  color:var(--text-light);
+}
+.phone{
+  width:360px;
+  border-radius:28px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:780px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  position:relative;
+}
+
+/* Top tabs */
+.top{
+  padding:36px 20px 10px;
+}
+.tabs{
+  display:flex;
+  gap:10px;
+}
+.tab{
+  padding:6px 14px;
+  border-radius:18px;
+  font-size:14px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  border:none;
+  color:var(--text-light);
+  font-weight:600;
+  transition:0.3s;
+}
+.tab:hover{ text-shadow:0 0 6px var(--accent-neon); }
+.tab.active{
+  color:var(--accent-neon);
+  text-shadow:0 0 8px var(--accent-neon),0 0 16px var(--accent-neon);
+  background:rgba(0,0,0,0.2);
+}
+
+/* Wallet card */
+.wallet-card{
+  margin:12px 20px;
+  padding:16px;
+  border-radius:12px;
+  color:white;
+  box-shadow:0 6px 18px rgba(0,255,204,0.3);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  background: linear-gradient(270deg, #00ffcc, var(--accent-blue), #00ffcc, var(--accent-blue));
+  background-size: 600% 600%;
+  animation: neonWave 10s ease infinite;
+}
+@keyframes neonWave{
+  0%{ background-position:0% 50%; }
+  50%{ background-position:100% 50%; }
+  100%{ background-position:0% 50%; }
+}
+.wallet-header{
+  text-align:right;
+  font-size:13px;
+  font-weight:600;
+}
+.wallet-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-top:10px;
+}
+.balance-left{
+  font-size:28px;
+  font-weight:700;
+}
+.balance-sub{
+  font-size:13px;
+  opacity:0.9;
+  margin-top:4px;
+}
+.wallet-actions{
+  display:flex;
+  gap:8px;
+}
+
+/* Feature icons row */
+.features{
+  display:flex;
+  justify-content:space-around;
+  padding:12px 20px;
+}
+.feature{
+  width:72px;
+  text-align:center;
+}
+.feature .icon{
+  width:56px;
+  height:56px;
+  border-radius:12px;
+  background:var(--icon-bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0 auto 6px;
+  color:var(--text-light);
+}
+.feature-label{
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-light);
+}
+
+/* Ads carousel */
+.ads-wrap{
+  position:relative;
+  margin:12px 20px;
+  height:120px;
+  overflow:hidden;
+}
+.ads{
+  display:flex;
+  gap:12px;
+  transition:transform 0.5s ease;
+}
+.ad{
+  flex:0 0 300px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#11151f,#1a2030);
+  box-shadow:0 6px 18px rgba(0,0,0,0.3);
+  color:var(--accent-neon);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  text-align:left;
+}
+.ad h4{ margin:0 0 6px; font-size:18px;}
+.ad p{ margin:0; font-size:13px; color:#ccc; }
+
+/* Arrow navigation */
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;
+  height:30px;
+  background:rgba(0,0,0,0.3);
+  color:white;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:18px;
+  display:none;
+  z-index:10;
+}
+.ads-wrap:hover .arrow{ display:flex; }
+.arrow-left{ left:5px; }
+.arrow-right{ right:5px; }
+
+/* Real-time Ads container */
+.blank{
+  flex:0 0 160px;
+  margin:12px 20px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.2);
+  color:#ccc;
+  overflow:hidden;
+}
+.blank-content{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+/* Bottom nav */
+.bottom-nav{
+  margin:12px 20px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:rgba(0,0,0,0.4);
+  border-radius:16px;
+  padding:6px 0;
+  box-shadow:0 6px 18px rgba(0,0,0,0.3);
+  position:absolute;
+  bottom:12px;
+  width:calc(100% - 40px);
+}
+.nav-item{
+  flex:1;
+  text-align:center;
+  cursor:pointer;
+  padding:6px 0;
+  border-radius:12px;
+  transition:0.3s;
+}
+.nav-item.active{
+  box-shadow:0 0 10px var(--accent-neon),0 0 20px var(--accent-neon);
+}
+.nav-item svg{ width:22px; height:22px; stroke:white; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Top tabs -->
+  <div class="top">
+    <div class="tabs">
+      <button class="tab active">Wallet</button>
+    </div>
+  </div>
+
+  <!-- Wallet Card -->
+  <div class="wallet-card">
+    <div class="wallet-header">QuickPay</div>
+    <div class="wallet-footer">
+      <div>
+        <div class="balance-left" id="walletBalance">PHP 0.00</div>
+        <div class="balance-sub">Wallet Balance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="feature">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="7" width="18" height="14" rx="2"/><path d="M3 7l9-4 9 4"/>
+        </svg>
+      </div>
+      <div class="feature-label">Bank Transfer</div>
+    </div>
+    <div class="feature">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1"/>
+        </svg>
+      </div>
+      <div class="feature-label">Load</div>
+    </div>
+    <div class="feature">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="6" y="4" width="12" height="16" rx="2"/><path d="M6 8h12"/>
+        </svg>
+      </div>
+      <div class="feature-label">Bills</div>
+    </div>
+  </div>
+
+  <!-- Ads carousel -->
+  <div class="ads-wrap">
+    <div class="ads" id="ads">
+      <div class="ad"><div class="ad-content"><h4>Special Offer</h4><p>Get 10% cashback on your first load</p></div></div>
+      <div class="ad"><div class="ad-content"><h4>Referral Bonus</h4><p>Invite friends, earn rewards</p></div></div>
+      <div class="ad"><div class="ad-content"><h4>Partner Promo</h4><p>Discounts at partner stores</p></div></div>
+      <div class="ad"><div class="ad-content"><h4>Festive Deal</h4><p>Save 15% on utilities this month</p></div></div>
+      <div class="ad"><div class="ad-content"><h4>Top Up Offer</h4><p>Extra credits on recharge above PHP 500</p></div></div>
+    </div>
+    <div class="arrow arrow-left" onclick="prevAd()">&#8249;</div>
+    <div class="arrow arrow-right" onclick="nextAd()">&#8250;</div>
+  </div>
+
+  <!-- Real-time ads blank -->
+  <div class="blank">
+    <div class="blank-content" id="realtimeAds">
+      <div>Welcome to ePay! Stay tuned for live promotions.</div>
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="goHome(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>
+    </div>
+    <div class="nav-item" onclick="goNotifications(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 10-12 0v5l-2 2h16l-2-2V8z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    </div>
+    <div class="nav-item" onclick="goQR(this)">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/></svg>
+    </div>
+    <div class="nav-item" onclick="goProfile(this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Wallet balance */
+let walletBalance = parseFloat(localStorage.getItem('walletBalance')) || 0;
+document.getElementById('walletBalance').textContent = `PHP ${walletBalance.toFixed(2)}`;
+
+/* Tabs */
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=> {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+/* Ads carousel */
+const ads = document.getElementById('ads');
+let adIndex = 0;
+const adCount = ads.children.length;
+function showAd(index){
+  const adWidth = ads.children[0].offsetWidth + 12;
+  ads.style.transform = `translateX(${-index*adWidth}px)`;
+}
+function nextAd(){ adIndex=(adIndex+1)%adCount; showAd(adIndex); }
+function prevAd(){ adIndex=(adIndex-1+adCount)%adCount; showAd(adIndex); }
+setInterval(nextAd,5000);
+
+/* Real-time ads simulation */
+const realtimeAds = document.getElementById('realtimeAds');
+const liveMessages = [
+  "Special: 20% off on your next load!",
+  "Referral: Invite friends and earn rewards.",
+  "Flash Promo: Cashback for first 100 users.",
+  "Bank Transfer free for today!",
+  "Utility bills discount available now."
+];
+let msgIndex = 0;
+setInterval(()=>{
+  realtimeAds.innerHTML = `<div>${liveMessages[msgIndex]}</div>`;
+  msgIndex = (msgIndex + 1) % liveMessages.length;
+}, 4000);
+
+/* Feature redirects */
+document.querySelectorAll('.feature').forEach(feature => {
+  feature.addEventListener('click', () => {
+    const label = feature.querySelector('.feature-label').innerText;
+
+    switch(label){
+      case "Bank Transfer":
+        window.location.href = "banktransfer.html";
+        break;
+      case "Load":
+        window.location.href = "load.html";
+        break;
+      case "Bills":
+        window.location.href = "bills.html";
+        break;
+      default:
+        break;
+    }
+  });
+});
+
+/* Bottom nav functions */
+function resetNav() {
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+}
+
+function goHome(el){
+  event.stopPropagation();
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "homedashboard.html";
+}
+
+function goNotifications(el){
+  event.stopPropagation();
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "notifications.html";
+}
+
+function goQR(el){
+  event.stopPropagation();
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "qr.html";
+}
+
+function goProfile(el){
+  event.stopPropagation();
+  resetNav();
+  el.classList.add('active');
+  window.location.href = "profile.html";
+}
+</script>
+</body>
+</html>

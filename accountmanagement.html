@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ePay — Account Management</title>
+<style>
+:root{
+  --bg-gradient: linear-gradient(180deg,#0b0f1a 0%, #1a2030 100%);
+  --accent-neon:#00ffcc;
+  --accent-blue:#2a6f97;
+  --cta-green:#4bb06d;
+  --cta-secondary:rgba(255,255,255,0.2);
+  --icon-bg:rgba(255,255,255,0.05);
+  --text-light:#ffffff;
+}
+
+/* phone frame */
+*{box-sizing:border-box;}
+body{
+  background:var(--bg-gradient);
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  min-height:85vh;
+  color:var(--text-light);
+}
+.phone{
+  width:360px;
+  border-radius:28px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:780px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  position:relative;
+  padding-bottom:20px;
+}
+
+/* Top header */
+.top{
+  padding:36px 20px 10px;
+  font-size:18px;
+  font-weight:600;
+  color:var(--text-light);
+}
+.back-btn{
+  font-size:14px;
+  cursor:pointer;
+  color:var(--accent-neon);
+  border:1px solid var(--accent-neon);
+  padding:6px 12px;
+  border-radius:18px;
+  background:rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+.back-btn:hover{
+  background:rgba(255,255,255,0.05);
+}
+
+/* Account sections */
+.account-section{
+  margin:12px 20px;
+  padding:16px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.account-section label{
+  font-size:13px;
+  color:var(--accent-neon);
+}
+.account-section input{
+  padding:10px;
+  font-size:15px;
+  border:none;
+  border-radius:8px;
+  background:rgba(255,255,255,0.05);
+  color:white;
+}
+.account-section input:focus{
+  outline:none;
+  border:1px solid var(--accent-neon);
+}
+.change-btn{
+  margin-top:6px;
+  background:var(--accent-neon);
+  color:black;
+  border:none;
+  padding:10px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.25s;
+}
+.change-btn:hover{
+  background:rgba(0,255,204,0.4);
+}
+
+/* Divider */
+.divider{
+  height:1px;
+  background:rgba(255,255,255,0.1);
+  margin:12px 20px;
+}
+.index-label{
+  color: rgb(255, 255, 255);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+  <div class="top">
+    <button class="back-btn" onclick="goBack()">Back</button>
+    <span>Account Management</span>
+    <div style="width:50px"></div>
+  </div>
+
+  <div class="account-section">
+    <label class="index-label">Account Name</label>
+    <input id="accountName" readonly>
+    <button class="change-btn" onclick="changeName()">Change Account Name</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="account-section">
+    <label class="index-label">Account Number</label>
+    <input id="accountNumber" readonly>
+    <button class="change-btn" onclick="changeNumber()">Change Number</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="account-section">
+    <label class="index-label">Password</label>
+    <input id="accountPassword" type="password" readonly>
+    <button class="change-btn" onclick="changePassword()">Change Password</button>
+  </div>
+
+</div>
+
+<script>
+accountName.value = localStorage.getItem("accountName") || "Not Set";
+accountNumber.value = localStorage.getItem("accountNumber") || "Not Set";
+accountPassword.value = localStorage.getItem("accountPassword") || "";
+
+function changeName(){
+  let v = prompt("Enter new account name:", accountName.value);
+  if(v){
+    accountName.value=v;
+    localStorage.setItem("accountName",v);
+  }
+}
+function changeNumber(){
+  let v = prompt("Enter new account number:", accountNumber.value);
+  if(v){
+    accountNumber.value=v;
+    localStorage.setItem("accountNumber",v);
+  }
+}
+function changePassword(){
+  let v = prompt("Enter new password:");
+  if(v){
+    accountPassword.value=v;
+    localStorage.setItem("accountPassword",v);
+  }
+}
+function goBack(){ window.location.href="profile.html"; }
+</script>
+
+</body>
+</html>

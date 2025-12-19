@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction History</title>
+
+<style>
+    body{
+        background:linear-gradient(180deg,#0b0f1a,#1a2030);
+        color:white;
+        font-family:Inter,Arial;
+        padding:20px;
+        display:flex;
+        justify-content:center;
+    }
+    .box{
+        width:360px;
+    }
+    h2{
+        color:#00ffcc;
+        text-align:center;
+    }
+    .item{
+        background:rgba(255,255,255,0.06);
+        padding:12px;
+        border-radius:12px;
+        margin-bottom:12px;
+    }
+    .back{
+        text-align:center;
+        margin-top:20px;
+        color:#00ffcc;
+        text-decoration:underline;
+        cursor:pointer;
+    }
+</style>
+</head>
+
+<body>
+<div class="box">
+    <h2>Transaction History</h2>
+    <div id="list"></div>
+
+    <div class="back" onclick="goHome()">← Back</div>
+</div>
+
+<script>
+let history = JSON.parse(localStorage.getItem("history") || "[]");
+let list = document.getElementById("list");
+
+if(history.length === 0){
+    list.innerHTML = "<p>No history yet.</p>";
+} else {
+    history.forEach(h => {
+        list.innerHTML += `
+            <div class="item">
+                <strong>${h.type}</strong><br>
+                Amount: PHP ${h.amount}<br>
+                Info: ${h.extra}<br>
+                <small>${h.date}</small>
+            </div>
+        `;
+    });
+}
+
+function goHome(){
+    window.location.href="homedashboard.html";
+}
+</script>
+</body>
+</html>
