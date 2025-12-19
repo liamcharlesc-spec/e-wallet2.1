@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Notifications</title>
+
 <style>
 :root{
   --bg-gradient: linear-gradient(180deg,#0b0f1a 0%, #1a2030 100%);
@@ -12,7 +13,6 @@
   --text-light:#f0f0f0;
 }
 
-/* phone frame */
 *{box-sizing:border-box;}
 body{
   background:var(--bg-gradient);
@@ -23,6 +23,7 @@ body{
   min-height:85vh;
   color:var(--text-light);
 }
+
 .phone{
   width:360px;
   border-radius:28px;
@@ -95,6 +96,21 @@ body{
   opacity:0.9;
 }
 
+/* Clear Transactions Button */
+.clear-btn{
+  margin:10px 20px 90px;
+  padding:10px;
+  text-align:center;
+  border-radius:14px;
+  background:#ff4d4d;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  display:none;
+  transition:0.3s;
+}
+.clear-btn:hover{opacity:0.9;}
+
 /* Bottom nav */
 .bottom-nav{
   margin:12px 20px;
@@ -123,62 +139,75 @@ body{
 .nav-item svg{ width:22px; height:22px; stroke:white; }
 </style>
 </head>
+
 <body>
 <div class="phone">
+
   <div class="top">
     <div class="back-btn" onclick="window.location.href='homedashboard.html'">&#8592; Home</div>
     <h2>Notifications</h2>
     <div></div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" id="updates-tab">Updates</div>
     <div class="tab" id="transactions-tab">Transactions</div>
   </div>
 
-  <!-- Notifications list -->
   <div class="notifications" id="notifications-list"></div>
 
-  <!-- Bottom nav -->
+  <!-- Clear Transactions Button -->
+  <div class="clear-btn" id="clear-btn">Clear Transactions</div>
+
   <div class="bottom-nav">
     <div class="nav-item" onclick="window.location.href='homedashboard.html'">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M3 11l9-7 9 7"/><path d="M9 22V12h6v10"/>
+      </svg>
     </div>
     <div class="nav-item active">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 10-12 0v5l-2 2h16l-2-2V8z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M18 8a6 6 0 10-12 0v5l-2 2h16l-2-2V8z"/>
+        <path d="M13.73 21a2 2 0 01-3.46 0"/>
+      </svg>
     </div>
     <div class="nav-item" onclick="window.location.href='qr.html'">
-      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/></svg>
+      <svg viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="3" width="6" height="6" rx="1"/>
+        <rect x="15" y="3" width="6" height="6" rx="1"/>
+        <rect x="3" y="15" width="6" height="6" rx="1"/>
+        <rect x="15" y="15" width="6" height="6" rx="1"/>
+      </svg>
     </div>
     <div class="nav-item" onclick="window.location.href='profile.html'">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
     </div>
   </div>
+
 </div>
 
 <script>
-// Sample Updates
 const updates = [
-  {title: "App Update", msg: "New version 2.0 is available."},
-  {title: "Promo", msg: "Get 10% cashback on your next load."},
-  {title: "Security", msg: "Your password was changed successfully."}
+  {title:"App Update", msg:"New version 2.0 is available."},
+  {title:"Promo", msg:"Get 10% cashback on your next load."},
+  {title:"Security", msg:"Your password was changed successfully."}
 ];
 
 const notificationsList = document.getElementById("notifications-list");
 const updatesTab = document.getElementById("updates-tab");
 const transactionsTab = document.getElementById("transactions-tab");
+const clearBtn = document.getElementById("clear-btn");
 
-// Load transactions from localStorage (cashin.html format)
 function getTransactionsFromStorage(){
   const storedTx = JSON.parse(localStorage.getItem("transactions")) || [];
   return storedTx.map(tx=>{
-    const date = tx.date || "Unknown date";
     const amount = tx.amount || 0;
-    let type = tx.type || "Cash In"; // Default to Cash In
+    let type = tx.type || "Cash In";
     let msg = "";
 
-    // Identify type of transaction
     if(tx.billType){
       type = "Bills Payment";
       msg = `PHP ${amount.toFixed(2)} paid for ${tx.billType}`;
@@ -189,42 +218,57 @@ function getTransactionsFromStorage(){
     } else {
       msg = `PHP ${amount.toFixed(2)} added to your wallet`;
     }
-
-    return {title: type, msg: msg, date: date};
+    return {title:type, msg:msg};
   });
 }
 
-// Render notifications
 function showNotifications(list){
   notificationsList.innerHTML = "";
   list.reverse().forEach(item=>{
     const div = document.createElement("div");
-    div.classList.add("notification-item");
+    div.className = "notification-item";
     div.innerHTML = `<h4>${item.title}</h4><p>${item.msg}</p>`;
     notificationsList.appendChild(div);
   });
 }
 
-// Initial load: Updates
 showNotifications(updates);
 
-// Tab events
-updatesTab.addEventListener("click", ()=>{
+updatesTab.onclick = ()=>{
   updatesTab.classList.add("active");
   transactionsTab.classList.remove("active");
+  clearBtn.style.display = "none";
   showNotifications(updates);
-});
+};
 
-transactionsTab.addEventListener("click", ()=>{
+transactionsTab.onclick = ()=>{
   transactionsTab.classList.add("active");
   updatesTab.classList.remove("active");
+  clearBtn.style.display = "block";
+
   const tx = getTransactionsFromStorage();
-  if(tx.length>0){
+  if(tx.length){
     showNotifications(tx);
   } else {
-    notificationsList.innerHTML = `<div class="notification-item"><h4>No Transactions</h4><p>No transaction history found.</p></div>`;
+    notificationsList.innerHTML =
+      `<div class="notification-item">
+        <h4>No Transactions</h4>
+        <p>No transaction history found.</p>
+      </div>`;
   }
-});
+};
+
+clearBtn.onclick = ()=>{
+  if(confirm("Clear all transactions?")){
+    localStorage.removeItem("transactions");
+    notificationsList.innerHTML =
+      `<div class="notification-item">
+        <h4>No Transactions</h4>
+        <p>Transaction history cleared.</p>
+      </div>`;
+  }
+};
 </script>
+
 </body>
 </html>
